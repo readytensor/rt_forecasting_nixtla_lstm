@@ -1,6 +1,6 @@
 {
   "history_forecast_ratio": 8,
-  "context_forecast_ratio": 0.5,
+  "context_forecast_ratio": 0.8,
   "encoder_n_layers": 2,
   "encoder_hidden_size": 64,
   "decoder_layers": 2,
