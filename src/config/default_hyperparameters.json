@@ -1,9 +1,9 @@
 {
   "history_forecast_ratio": 8,
   "context_forecast_ratio": 0.8,
-  "encoder_n_layers": 2,
+  "encoder_n_layers": 1,
   "encoder_hidden_size": 64,
-  "decoder_layers": 2,
+  "decoder_layers": 1,
   "decoder_hidden_size": 128,
   "encoder_activation": "tanh",
   "max_steps": 1000,
