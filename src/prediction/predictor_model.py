@@ -29,8 +29,8 @@ class Forecaster:
         self,
         data_schema: ForecastingSchema,
         history_forecast_ratio: int = None,
-        lags_forecast_ratio: int = None,
-        lags: int = None,
+        context_forecast_ratio: float = None,
+        context_size: int = 10,
         encoder_n_layers: int = 2,
         encoder_hidden_size: int = 200,
         encoder_bias: bool = True,
@@ -108,7 +108,7 @@ class Forecaster:
             random_state (int): Sets the underlying random seed at model initialization time.
         """
         self.data_schema = data_schema
-        self.lags = lags
+        self.context_size = context_size
         self.use_exogenous = use_exogenous
         self.random_state = random_state
         self._is_trained = False
@@ -120,8 +120,10 @@ class Forecaster:
                 self.data_schema.forecast_length * history_forecast_ratio
             )
 
-        if lags_forecast_ratio:
-            self.lags = lags_forecast_ratio * self.data_schema.forecast_length
+        if context_forecast_ratio:
+            self.context_size = int(
+                context_forecast_ratio * self.data_schema.forecast_length
+            )
 
         stopper = EarlyStopping(
             monitor="train_loss",
@@ -162,7 +164,7 @@ class Forecaster:
                 encoder_dropout=encoder_dropout,
                 decoder_hidden_size=decoder_hidden_size,
                 decoder_layers=decoder_layers,
-                context_size=self.lags,
+                context_size=self.context_size,
                 max_steps=max_steps,
                 learning_rate=learning_rate,
                 num_lr_decays=num_lr_decays,
